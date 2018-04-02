@@ -19,20 +19,13 @@ package ch.anchialas.nb.editor.actions;
 
 import ch.anchialas.lang.Pair;
 import java.awt.event.ActionEvent;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
+import java.io.IOException;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
-import org.netbeans.api.annotations.common.CheckForNull;
-import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.java.source.CompilationController;
-import org.netbeans.api.java.source.ElementHandle;
 import org.netbeans.api.java.source.JavaSource;
-import org.netbeans.api.java.source.Task;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
@@ -41,7 +34,6 @@ import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
-import org.openide.util.Parameters;
 import org.openide.util.Utilities;
 
 import static javax.swing.Action.NAME;
@@ -57,10 +49,14 @@ import static javax.swing.Action.SHORT_DESCRIPTION;
           id = "ch.anchialas.nb.editor.actions.CopyFQNAction")
 @ActionRegistration(displayName = "#CTL_CopyFQNAction", lazy = true)
 @ActionReferences({
-   @ActionReference(path = "Menu/GoTo/Inspect", position = 510, separatorAfter = 511),
+   @ActionReference(path = "Menu/GoTo/Inspect", position = 510, separatorAfter = 511)
+   ,
    @ActionReference(path = "Shortcuts", name = "C-C C-Q")
 })
-@Messages("CTL_CopyFQNAction=Copy Qualified Name")
+@Messages({
+   "CTL_CopyFQNAction=Copy Full Qualified Name (FQN)",
+   "MSG_CopyFQNFailed=Cannot copy the FQN for file ''{0}''"
+})
 public final class CopyFQNAction extends AbstractAction {
 
    private final FileObject fo;
@@ -84,16 +80,31 @@ public final class CopyFQNAction extends AbstractAction {
 
    @Override
    public void actionPerformed(ActionEvent ev) {
-      Pair<FileObject, JavaSource> ctx = getContext(fo);
-      assert ctx != null;
-
-      FileResolver fr = new FileResolver(ctx.first, ctx.second);
+//      Pair<FileObject, JavaSource> ctx = getContext(fo);
+//      assert ctx != null;
+//      
+//      FileResolver fr = new FileResolver(ctx.first, ctx.second);
+//      try {
+//         Pair<URI, ElementHandle<TypeElement>> pair = fr.call();
+//         String qualifiedName = pair.second.getQualifiedName();
+//         Util.setClipboardContents(qualifiedName);
+//
+//      } catch (Exception ex) {
+//         Exceptions.printStackTrace(ex);
+//      }
+      Pair<FileObject, JavaSource> context = getContext(fo);
+      if (context == null) {
+         NotifyDescriptor nd = new NotifyDescriptor.Message(Bundle.MSG_CopyFQNFailed(fo.getName()), NotifyDescriptor.INFORMATION_MESSAGE);
+         DialogDisplayer.getDefault().notify(nd);
+         return;
+      }
       try {
-         Pair<URI, ElementHandle<Element>> pair = fr.call();
-         String qualifiedName = pair.second.getQualifiedName();
-         Util.setClipboardContents(qualifiedName);
-
-      } catch (Exception ex) {
+         context.second.runUserActionTask((CompilationController cc) -> {
+            cc.toPhase(JavaSource.Phase.ELEMENTS_RESOLVED);
+            String qualifiedName = cc.getTopLevelElements().toString().split("[\\[\\],]")[1];
+            Util.setClipboardContents(qualifiedName);
+         }, true);
+      } catch (IOException ex) {
          Exceptions.printStackTrace(ex);
       }
    }
@@ -114,57 +125,52 @@ public final class CopyFQNAction extends AbstractAction {
       }
       return Pair.of(fo, js);
    }
-
-   private static final class FileResolver implements Callable<Pair<URI, ElementHandle<Element>>> {
-
-      private final JavaSource js;
-      private final FileObject fo;
-
-      public FileResolver(@NonNull final FileObject fo,
-                          @NonNull final JavaSource js) {
-         Parameters.notNull("fo", fo);   //NOI18N
-         Parameters.notNull("js", js);   //NOI18N
-         this.fo = fo;
-         this.js = js;
-      }
-
-      @Override
-      public Pair<URI, ElementHandle<Element>> call() throws Exception {
-         final List<ElementHandle<Element>> ret = new ArrayList<ElementHandle<Element>>(1);
-         ret.add(null);
-         js.runUserActionTask(new Task<CompilationController>() {
-            @Override
-            public void run(CompilationController cc) throws Exception {
-               cc.toPhase(JavaSource.Phase.ELEMENTS_RESOLVED);
-               List<? extends TypeElement> topLevelElements = cc.getTopLevelElements();
-               System.out.println(topLevelElements);
-               ret.set(0, findMainElement(cc, fo.getName()));
-
-            }
-         }, true);
-
-         final ElementHandle<Element> handle = ret.get(0);
-         if (handle == null) {
-            return null;
-         }
-         return Pair.<URI, ElementHandle<Element>>of(fo.toURI(), handle);
-      }
-
-      @CheckForNull
-      static ElementHandle<Element> findMainElement(@NonNull final CompilationController cc,
-                                                    @NonNull final String fileName) {
-         final List<? extends Element> topLevels = cc.getTopLevelElements();
-         if (topLevels.isEmpty()) {
-            return null;
-         }
-         Element candidate = topLevels.get(0);
-         for (int i = 1; i < topLevels.size(); i++) {
-            if (fileName.contentEquals(topLevels.get(i).getSimpleName())) {
-               candidate = topLevels.get(i);
-               break;
-            }
-         }
-         return ElementHandle.create(candidate);
-      }
-   }
+//
+//   private static final class FileResolver implements Callable<Pair<URI, ElementHandle<TypeElement>>> {
+//
+//      private final JavaSource js;
+//      private final FileObject fo;
+//
+//      public FileResolver(@NonNull final FileObject fo,
+//                          @NonNull final JavaSource js) {
+//         Parameters.notNull("fo", fo);   //NOI18N
+//         Parameters.notNull("js", js);   //NOI18N
+//         this.fo = fo;
+//         this.js = js;
+//      }
+//
+//      @Override
+//      public Pair<URI, ElementHandle<TypeElement>> call() throws Exception {
+//         final List<ElementHandle<TypeElement>> ret = new ArrayList<>(1);
+//         ret.add(null);
+//         js.runUserActionTask((CompilationController cc) -> {
+//            cc.toPhase(JavaSource.Phase.ELEMENTS_RESOLVED);
+//            List<? extends TypeElement> topLevelElements = cc.getTopLevelElements();
+//            ret.set(0, findMainElement(cc, fo.getName()));
+//         }, true);
+//
+//         final ElementHandle<TypeElement> handle = ret.get(0);
+//         if (handle == null) {
+//            return null;
+//         }
+//         return Pair.<URI, ElementHandle<TypeElement>>of(fo.toURI(), handle);
+//      }
+//
+//      @CheckForNull
+//      static ElementHandle<TypeElement> findMainElement(@NonNull final CompilationController cc,
+//                                                        @NonNull final String fileName) {
+//         final List<? extends TypeElement> topLevels = cc.getTopLevelElements();
+//         if (topLevels.isEmpty()) {
+//            return null;
+//         }
+//         TypeElement candidate = topLevels.get(0);
+//         for (int i = 1; i < topLevels.size(); i++) {
+//            if (fileName.contentEquals(topLevels.get(i).getSimpleName())) {
+//               candidate = topLevels.get(i);
+//               break;
+//            }
+//         }
+//         return ElementHandle.create(candidate);
+//      }
+//   }
 }
