@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+   <!--   
+   <folder name="Shortcuts">
+      <file name="DOS-F12.shadow">
+         <attr name="originalFile" stringvalue="Editors/Actions/anchialas-file-context-action.instance"/>
+      </file>
+   </folder>-->
+   
+   <folder name="Keymaps">
+      <folder name="NetBeans">
+         <file name="DOS-F12.shadow">
+            <attr name="originalFile" stringvalue="Editors/Actions/anchialas-file-context-action.instance"/>
+         </file>
+      </folder>
+   </folder>
+   
+   <folder name="Editors">
+      <folder name="TabActions">
+         <file name="separator-before-anchialas-file-context-action.instance">
+            <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+            <attr name="position" intvalue="410"/>
+         </file>
+         <file name="anchialas-file-context-action.shadow">
+            <attr name="originalFile" stringvalue="Editors/Actions/anchialas-file-context-action.instance"/>
+            <attr name="position" intvalue="411"/>
+         </file>
+      </folder>
+      
+      <folder name="Popup">
+         <file name="anchialas-file-context-action.shadow">
+            <attr name="originalFile" stringvalue="Editors/Actions/anchialas-file-context-action.instance"/>
+            <attr name="position" intvalue="410"/>
+         </file>
+         <file name="separator-after-anchialas-file-context-action.instance">
+            <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+            <attr name="position" intvalue="411"/>
+         </file>
+      </folder>
+          
+      <folder name="Toolbars">
+         <folder name="Default">
+            <!--
+            <file name="hfill-before-anchialas-file-context-action.instance">
+               <attr name="instanceCreate" methodvalue="javax.swing.Box.createHorizontalGlue"/>
+               <attr name="position" intvalue="99999"/>
+            </file>
+            -->
+            <file name="separator-before-anchialas-file-context-action.instance">
+               <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+               <attr name="position" intvalue="100"/>
+            </file>
+            
+            <file name="anchialas-file-context-action">
+               <attr name="position" intvalue="101"/>
+            </file>
+         </folder>
+      </folder>
+      
+      <folder name="text">
+         <folder name="x-java">
+            <folder name="Popup">
+               <file name="anchialas-file-context-action.shadow">
+                  <attr name="originalFile" stringvalue="Editors/Actions/anchialas-file-context-action.instance"/>
+                  <attr name="position" intvalue="410"/>
+               </file>
+               <file name="separator-after-anchialas-file-context-action.instance">
+                  <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                  <attr name="position" intvalue="411"/>
+               </file>
+            </folder>
+         </folder>
+      </folder>
+      
+      <folder name="Actions">
+         <file name="anchialas-file-context-action.instance">
+            <attr name="iconBase" stringvalue="/org/netbeans/core/windows/resources/info.png"/> 
+            <attr name="ShortDescription" bundlevalue="ch.anchialas.nb.editor.actions.Bundle#anchialas-file-context-action"/>
+            <attr name="menuText" bundlevalue="ch.anchialas.nb.editor.actions.Bundle#anchialas-file-context-action"/>
+            <attr name="popupText" bundlevalue="ch.anchialas.nb.editor.actions.Bundle#anchialas-file-context-action"/>
+            <attr name="helpID" stringvalue="anchialas-file-context-action"/>
+            <attr name="AcceleratorKey" methodvalue="org.netbeans.modules.editor.lib2.actions.EditorActionUtilities.getAccelerator"/>
+
+            <attr name="Name" stringvalue="anchialas-file-context-action"/>
+            <attr name="displayName" stringvalue="anchialas-file-context-action"/>
+            
+            <attr name="instanceCreate" methodvalue="ch.anchialas.nb.editor.actions.ActionUtil.alwaysEnabled"/>
+            <attr name="delegate" newvalue="ch.anchialas.nb.editor.actions.CoolActionsFactory$FileContextAction"/>
+         </file>
+      </folder>
+      
+   </folder>
+   
+   
+   <folder name="Loaders">
+      <folder name="content">
+         <folder name="unknown">
+            <folder name="Actions">
+               <file name="anchialas-file-context-action.shadow">
+                  <attr name="originalFile" stringvalue="Editors/Actions/anchialas-file-context-action.instance"/>
+                  <attr name="position" intvalue="310"/>
+               </file>
+               <file name="separator-after-anchialas-file-context-action.instance">
+                  <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                  <attr name="position" intvalue="311"/>
+               </file>
+            </folder>
+         </folder>
+      </folder>
+      <folder name="folder">
+         <folder name="any">
+            <folder name="Actions">
+               <file name="anchialas-file-context-action.shadow">
+                  <attr name="originalFile" stringvalue="Editors/Actions/anchialas-file-context-action.instance"/>
+                  <attr name="position" intvalue="310"/>
+               </file>
+               <file name="separator-after-anchialas-file-context-action.instance">
+                  <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                  <attr name="position" intvalue="311"/>
+               </file>
+            </folder>
+         </folder>
+      </folder>
+      <folder name="text">
+         <folder name="x-java">
+            <folder name="Actions">
+               <file name="anchialas-file-context-action.shadow">
+                  <attr name="originalFile" stringvalue="Editors/Actions/anchialas-file-context-action.instance"/>
+                  <attr name="position" intvalue="310"/>
+               </file>
+               <file name="separator-after-anchialas-file-context-action.instance">
+                  <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+                  <attr name="position" intvalue="311"/>
+               </file>
+            </folder>
+         </folder>
+      </folder>
+      
+      
+      <folder name="Languages">
+         <folder name="Actions">
+            <file name="anchialas-file-context-action.shadow">
+               <attr name="originalFile" stringvalue="Editors/Actions/anchialas-file-context-action.instance"/>
+               <attr name="position" intvalue="310"/>
+            </file>
+            <file name="separator-after-anchialas-file-context-action.instance">
+               <attr name="instanceCreate" newvalue="javax.swing.JSeparator"/>
+               <attr name="position" intvalue="311"/>
+            </file>
+         </folder>
+      </folder>
+   </folder>
+   
+   
+   <folder name="Services">
+      <folder name="AutoupdateType">
+         <file name="ch_anchialas_nb_editor_update_center.instance">
+            <attr name="displayName" bundlevalue="ch.anchialas.nb.editor.Bundle#Services/AutoupdateType/ch_anchialas_nb_editor_update_center.instance"/>
+            <attr name="enabled" boolvalue="true"/>
+            <attr name="instanceCreate" methodvalue="org.netbeans.modules.autoupdate.updateprovider.AutoupdateCatalogFactory.createUpdateProvider"/>
+            <attr name="instanceOf" stringvalue="org.netbeans.spi.autoupdate.UpdateProvider"/>
+            <attr name="url" bundlevalue="ch.anchialas.nb.editor.Bundle#ch_anchialas_nb_editor_update_center"/>
+         </file>
+      </folder>
+   </folder>
+</filesystem>
