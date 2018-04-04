@@ -1,5 +1,5 @@
 # CoolEditorActions
-This Plugin for NetBeans IDE adds two drop down buttons consisting of convenient actions:
+This [Plugin](https://netbeans.apache.org/plugins/) for [NetBeans IDE](https://netbeans.apache.org/) adds two drop down buttons consisting of convenient actions:
   1. to the **Editor Window toolbar**:
 
      ![Drowdown Menu small](res/FileContextAction-ExperimentalMenuItemButtons-OSX-V1.5.0-small.png)
