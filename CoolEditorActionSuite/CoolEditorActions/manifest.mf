@@ -5,5 +5,5 @@ OpenIDE-Module: ch.anchialas.nb.editor
 OpenIDE-Module-Layer: ch/anchialas/nb/editor/layer.xml
 OpenIDE-Module-Localizing-Bundle: ch/anchialas/nb/editor/Bundle.proper
  ties
-OpenIDE-Module-Specification-Version: 1.9
+OpenIDE-Module-Specification-Version: 1.12
 
